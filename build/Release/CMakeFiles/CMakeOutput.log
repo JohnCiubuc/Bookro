@@ -258,3 +258,51 @@ int main(int, char **)
     test(*reinterpret_cast<std::atomic<std::int64_t> *>(ptr));
     return 0;
 }
+Determining if the function XOpenDisplay exists in the /usr/lib/libX11.so;/usr/lib/libXext.so passed with the following output:
+Change Dir: /home/inathero/Gits/bookro/build/Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_5b3c4 && [1/2] Building CXX object CMakeFiles/cmTC_5b3c4.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_5b3c4
+
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/inathero/Gits/bookro/build/Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_5bcb7 && [1/2] Building CXX object CMakeFiles/cmTC_5bcb7.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_5bcb7
+
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/inathero/Gits/bookro/build/Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_c880a && [1/2] Building CXX object CMakeFiles/cmTC_c880a.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_c880a
+
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/inathero/Gits/bookro/build/Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_aaeba && [1/2] Building CXX object CMakeFiles/cmTC_aaeba.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_aaeba
+
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/inathero/Gits/bookro/build/Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_78c3f && [1/2] Building CXX object CMakeFiles/cmTC_78c3f.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_78c3f
+
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/inathero/Gits/bookro/build/Release/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_56b94 && [1/2] Building CXX object CMakeFiles/cmTC_56b94.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_56b94
+
+
+

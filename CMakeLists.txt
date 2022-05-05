@@ -18,7 +18,9 @@ set(PROJECT_SOURCES
         main.cpp
         src/Bookro.cpp
         src/Bookro.h
-        src/Bookro.ui
+        src/bookro.ui
+        src/emulation/xkeys.h
+        src/emulation/xkeys.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -44,7 +46,9 @@ else()
     endif()
 endif()
 
-target_link_libraries(bookro PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+find_package(X11 REQUIRED)
+
+target_link_libraries(bookro PRIVATE Qt${QT_VERSION_MAJOR}::Widgets X11 Xtst)
 
 set_target_properties(bookro PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

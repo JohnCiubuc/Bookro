@@ -126,7 +126,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/inathero/Gits/bookro/build/Release/bookro_autogen/include/src/ui_Bookro.h">
+		<Unit filename="/home/inathero/Gits/bookro/build/Release/bookro_autogen/include/src/ui_bookro.h">
 			<Option target="bookro"/>
 		</Unit>
 		<Unit filename="/home/inathero/Gits/bookro/build/Release/bookro_autogen/mocs_compilation.cpp">
@@ -147,7 +147,13 @@
 		<Unit filename="/home/inathero/Gits/bookro/src/Bookro.h">
 			<Option target="bookro"/>
 		</Unit>
-		<Unit filename="/home/inathero/Gits/bookro/src/Bookro.ui">
+		<Unit filename="/home/inathero/Gits/bookro/src/bookro.ui">
+			<Option target="bookro"/>
+		</Unit>
+		<Unit filename="/home/inathero/Gits/bookro/src/emulation/xkeys.cpp">
+			<Option target="bookro"/>
+		</Unit>
+		<Unit filename="/home/inathero/Gits/bookro/src/emulation/xkeys.h">
 			<Option target="bookro"/>
 		</Unit>
 		<Unit filename="/home/inathero/Gits/bookro/CMakeLists.txt">
