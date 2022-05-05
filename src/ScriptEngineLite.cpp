@@ -5,7 +5,7 @@
 #include "ScriptEngineLite.h"
 #include <linux/input-event-codes.h>
 
-#define KEY_DELAY qrand() % ((30 + 1) - 20) + 10
+#define KEY_DELAY rand() % ((30 + 1) - 20) + 10
 
 ScriptEngineLite::ScriptEngineLite(QObject *parent)
     : QObject{parent}
