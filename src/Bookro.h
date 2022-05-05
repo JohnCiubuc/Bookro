@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include "emulation/xkeys.h"
+#include "EvDevKeyboardListener.h"
 
 #define db qDebug() << this <<
 
@@ -29,5 +30,6 @@ private:
     Ui::Bookro *ui;
 
     QTimer * debugTimer;
+    EvDevKeyboardListener * Listener;
 };
 #endif // BOOKRO_H

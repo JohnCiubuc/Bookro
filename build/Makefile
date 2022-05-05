@@ -39,8 +39,8 @@ COMPRESS      = gzip -9f
 DISTNAME      = Bookro1.0.0
 DISTDIR = /home/inathero/Gits/bookro/build/.tmp/Bookro1.0.0
 LINK          = g++
-LFLAGS        = -Wl,-O1 -pipe -O2 -std=gnu++1z -flto=24 -fno-fat-lto-objects -fuse-linker-plugin -Wl,-rpath-link,/usr/lib -fPIC
-LIBS          = $(SUBLIBS) -lXtst -lX11 /usr/lib/libQt5WaylandCompositor.so /usr/lib/libQt5Quick.so /usr/lib/libQt5Widgets.so /usr/lib/libQt5Gui.so /usr/lib/libQt5QmlModels.so /usr/lib/libQt5Qml.so /usr/lib/libQt5Network.so /usr/lib/libQt5Core.so -lGL -lpthread -lwayland-server -lxkbcommon   
+LFLAGS        = -Wl,-O1 -Wl,-rpath,/usr/lib -pipe -O2 -std=gnu++1z -flto=24 -fno-fat-lto-objects -fuse-linker-plugin -Wl,-rpath-link,/usr/lib -fPIC
+LIBS          = $(SUBLIBS) -lXtst -lX11 -levdev -L/usr/lib -ludev -lqevdevkeyboard /usr/lib/libQt5WaylandCompositor.so /usr/lib/libQt5Quick.so /usr/lib/libQt5Widgets.so /usr/lib/libQt5Gui.so /usr/lib/libQt5QmlModels.so /usr/lib/libQt5Qml.so /usr/lib/libQt5Network.so /usr/lib/libQt5Core.so -lGL -lpthread -lwayland-server -lxkbcommon   
 AR            = gcc-ar cqs
 RANLIB        = 
 SED           = sed
@@ -52,14 +52,18 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../src/emulation/xkeys.cpp \
+SOURCES       = ../src/EvDevKeyboardListener.cpp \
+		../src/emulation/xkeys.cpp \
 		../src/main.cpp \
 		../src/Bookro.cpp moc_Bookro.cpp \
+		moc_EvDevKeyboardListener.cpp \
 		moc_xkeys.cpp
-OBJECTS       = xkeys.o \
+OBJECTS       = EvDevKeyboardListener.o \
+		xkeys.o \
 		main.o \
 		Bookro.o \
 		moc_Bookro.o \
+		moc_EvDevKeyboardListener.o \
 		moc_xkeys.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -338,6 +342,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
 		/usr/lib/qt/mkspecs/features/resolve_config.prf \
 		/usr/lib/qt/mkspecs/features/default_post.prf \
+		/usr/lib/qt/mkspecs/features/qevdevkeyboard.prf \
 		/usr/lib/qt/mkspecs/features/link_ltcg.prf \
 		/usr/lib/qt/mkspecs/features/ltcg.prf \
 		/usr/lib/qt/mkspecs/features/warn_on.prf \
@@ -355,7 +360,9 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		../../Bookro.pro ../src/Bookro.h \
-		../src/emulation/xkeys.h ../src/emulation/xkeys.cpp \
+		../src/EvDevKeyboardListener.h \
+		../src/emulation/xkeys.h ../src/EvDevKeyboardListener.cpp \
+		../src/emulation/xkeys.cpp \
 		../src/main.cpp \
 		../src/Bookro.cpp
 QMAKE_TARGET  = Bookro
@@ -646,6 +653,7 @@ Makefile: ../Bookro.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mks
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
 		/usr/lib/qt/mkspecs/features/resolve_config.prf \
 		/usr/lib/qt/mkspecs/features/default_post.prf \
+		/usr/lib/qt/mkspecs/features/qevdevkeyboard.prf \
 		/usr/lib/qt/mkspecs/features/link_ltcg.prf \
 		/usr/lib/qt/mkspecs/features/ltcg.prf \
 		/usr/lib/qt/mkspecs/features/warn_on.prf \
@@ -941,6 +949,7 @@ Makefile: ../Bookro.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mks
 /usr/lib/qt/mkspecs/features/default_pre.prf:
 /usr/lib/qt/mkspecs/features/resolve_config.prf:
 /usr/lib/qt/mkspecs/features/default_post.prf:
+/usr/lib/qt/mkspecs/features/qevdevkeyboard.prf:
 /usr/lib/qt/mkspecs/features/link_ltcg.prf:
 /usr/lib/qt/mkspecs/features/ltcg.prf:
 /usr/lib/qt/mkspecs/features/warn_on.prf:
@@ -973,8 +982,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/Bookro.h ../src/emulation/xkeys.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/emulation/xkeys.cpp ../src/main.cpp ../src/Bookro.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/Bookro.h ../src/EvDevKeyboardListener.h ../src/emulation/xkeys.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/EvDevKeyboardListener.cpp ../src/emulation/xkeys.cpp ../src/main.cpp ../src/Bookro.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/Bookro.ui $(DISTDIR)/
 
 
@@ -1007,14 +1016,20 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++1z -flto -fno-fat-lto-objects -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_Bookro.cpp moc_xkeys.cpp
+compiler_moc_header_make_all: moc_Bookro.cpp moc_EvDevKeyboardListener.cpp moc_xkeys.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Bookro.cpp moc_xkeys.cpp
+	-$(DEL_FILE) moc_Bookro.cpp moc_EvDevKeyboardListener.cpp moc_xkeys.cpp
 moc_Bookro.cpp: ../src/Bookro.h \
 		../src/emulation/xkeys.h \
+		../src/EvDevKeyboardListener.h \
 		moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include /home/inathero/Gits/bookro/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/inathero/Gits/bookro -I/usr/include/qt -I/usr/include/qt/QtWaylandCompositor -I/usr/include/qt/QtQuick -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtQmlModels -I/usr/include/qt/QtQml -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtCore -I. -I/usr/include/c++/11.2.0 -I/usr/include/c++/11.2.0/x86_64-pc-linux-gnu -I/usr/include/c++/11.2.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include-fixed -I/usr/include ../src/Bookro.h -o moc_Bookro.cpp
+
+moc_EvDevKeyboardListener.cpp: ../src/EvDevKeyboardListener.h \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include /home/inathero/Gits/bookro/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/inathero/Gits/bookro -I/usr/include/qt -I/usr/include/qt/QtWaylandCompositor -I/usr/include/qt/QtQuick -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtQmlModels -I/usr/include/qt/QtQml -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtCore -I. -I/usr/include/c++/11.2.0 -I/usr/include/c++/11.2.0/x86_64-pc-linux-gnu -I/usr/include/c++/11.2.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include-fixed -I/usr/include ../src/EvDevKeyboardListener.h -o moc_EvDevKeyboardListener.cpp
 
 moc_xkeys.cpp: ../src/emulation/xkeys.h \
 		moc_predefs.h \
@@ -1042,20 +1057,28 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
+EvDevKeyboardListener.o: ../src/EvDevKeyboardListener.cpp ../src/EvDevKeyboardListener.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o EvDevKeyboardListener.o ../src/EvDevKeyboardListener.cpp
+
 xkeys.o: ../src/emulation/xkeys.cpp ../src/emulation/xkeys.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xkeys.o ../src/emulation/xkeys.cpp
 
 main.o: ../src/main.cpp ../src/Bookro.h \
-		../src/emulation/xkeys.h
+		../src/emulation/xkeys.h \
+		../src/EvDevKeyboardListener.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../src/main.cpp
 
 Bookro.o: ../src/Bookro.cpp ../src/Bookro.h \
 		../src/emulation/xkeys.h \
+		../src/EvDevKeyboardListener.h \
 		ui_Bookro.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Bookro.o ../src/Bookro.cpp
 
 moc_Bookro.o: moc_Bookro.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Bookro.o moc_Bookro.cpp
+
+moc_EvDevKeyboardListener.o: moc_EvDevKeyboardListener.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_EvDevKeyboardListener.o moc_EvDevKeyboardListener.cpp
 
 moc_xkeys.o: moc_xkeys.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xkeys.o moc_xkeys.cpp

@@ -9,6 +9,7 @@ Bookro::Bookro(QWidget *parent)
     ui->setupUi(this);
 
     debugTimer = new QTimer;
+    Listener = new EvDevKeyboardListener();
 //    QWaylandCompositor comp = QWaylandCompositor();
 
 //    QWaylandPointerPrivate::Resource *resource = view ? d->resourceMap().value(view->surface()->waylandClient()) : 0;
@@ -26,15 +27,15 @@ Bookro::Bookro(QWidget *parent)
 //        d->focusDestroyListener.listenForDestruction(view->surface()->resource());
 //        d->hasSentEnter = true;
 //    }
-    xkeys * key = new xkeys();
-    connect(debugTimer, &QTimer::timeout, this, [=]()
-    {
-        key->pressKey_Dik(0x33);
-        db "test";
-        key->releaseKey_Dik(0x33);
-//        as->sendKeyPressEvent(0x4A);
-    });
-    debugTimer->start(1000);
+//    xkeys * key = new xkeys();
+//    connect(debugTimer, &QTimer::timeout, this, [=]()
+//    {
+//        key->pressKey_Dik(0x33);
+//        db "test";
+//        key->releaseKey_Dik(0x33);
+////        as->sendKeyPressEvent(0x4A);
+//    });
+//    debugTimer->start(1000);
 }
 
 Bookro::~Bookro()
