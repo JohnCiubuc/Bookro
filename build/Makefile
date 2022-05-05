@@ -54,18 +54,24 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../keepassx/src/autotype/wayland/UInput.cpp \
 		../src/EvDevKeyboardListener.cpp \
+		../src/ScriptEngineLite.cpp \
 		../src/emulation/xkeys.cpp \
 		../src/main.cpp \
-		../src/Bookro.cpp moc_Bookro.cpp \
+		../src/Bookro.cpp qrc_resource.cpp \
+		moc_Bookro.cpp \
 		moc_EvDevKeyboardListener.cpp \
+		moc_ScriptEngineLite.cpp \
 		moc_xkeys.cpp
 OBJECTS       = UInput.o \
 		EvDevKeyboardListener.o \
+		ScriptEngineLite.o \
 		xkeys.o \
 		main.o \
 		Bookro.o \
+		qrc_resource.o \
 		moc_Bookro.o \
 		moc_EvDevKeyboardListener.o \
+		moc_ScriptEngineLite.o \
 		moc_xkeys.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -364,8 +370,10 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		../../Bookro.pro ../keepassx/src/autotype/wayland/UInput.h \
 		../src/Bookro.h \
 		../src/EvDevKeyboardListener.h \
+		../src/ScriptEngineLite.h \
 		../src/emulation/xkeys.h ../keepassx/src/autotype/wayland/UInput.cpp \
 		../src/EvDevKeyboardListener.cpp \
+		../src/ScriptEngineLite.cpp \
 		../src/emulation/xkeys.cpp \
 		../src/main.cpp \
 		../src/Bookro.cpp
@@ -674,7 +682,8 @@ Makefile: ../Bookro.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mks
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		../Bookro.pro
+		../Bookro.pro \
+		../resource.qrc
 	$(QMAKE) -o Makefile ../Bookro.pro -spec linux-g++ CONFIG-=qtquickcompiler
 /usr/lib/qt/mkspecs/features/spec_pre.prf:
 /usr/lib/qt/mkspecs/common/unix.conf:
@@ -971,6 +980,7 @@ Makefile: ../Bookro.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mks
 /usr/lib/qt/mkspecs/features/yacc.prf:
 /usr/lib/qt/mkspecs/features/lex.prf:
 ../Bookro.pro:
+../resource.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../Bookro.pro -spec linux-g++ CONFIG-=qtquickcompiler
 
@@ -985,9 +995,10 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../resource.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../keepassx/src/autotype/wayland/UInput.h ../src/Bookro.h ../src/EvDevKeyboardListener.h ../src/emulation/xkeys.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../keepassx/src/autotype/wayland/UInput.cpp ../src/EvDevKeyboardListener.cpp ../src/emulation/xkeys.cpp ../src/main.cpp ../src/Bookro.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../keepassx/src/autotype/wayland/UInput.h ../src/Bookro.h ../src/EvDevKeyboardListener.h ../src/ScriptEngineLite.h ../src/emulation/xkeys.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../keepassx/src/autotype/wayland/UInput.cpp ../src/EvDevKeyboardListener.cpp ../src/ScriptEngineLite.cpp ../src/emulation/xkeys.cpp ../src/main.cpp ../src/Bookro.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/Bookro.ui $(DISTDIR)/
 
 
@@ -1012,17 +1023,24 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resource.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resource.cpp
+qrc_resource.cpp: ../resource.qrc \
+		/usr/bin/rcc \
+		../src/emulation/definitions/dik_defines.h \
+		../src/emulation/definitions/keysyms_defines.h
+	/usr/bin/rcc -name resource ../resource.qrc -o qrc_resource.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++1z -flto -fno-fat-lto-objects -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_Bookro.cpp moc_EvDevKeyboardListener.cpp moc_xkeys.cpp
+compiler_moc_header_make_all: moc_Bookro.cpp moc_EvDevKeyboardListener.cpp moc_ScriptEngineLite.cpp moc_xkeys.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Bookro.cpp moc_EvDevKeyboardListener.cpp moc_xkeys.cpp
+	-$(DEL_FILE) moc_Bookro.cpp moc_EvDevKeyboardListener.cpp moc_ScriptEngineLite.cpp moc_xkeys.cpp
 moc_Bookro.cpp: ../src/Bookro.h \
 		../src/emulation/xkeys.h \
 		../src/EvDevKeyboardListener.h \
@@ -1035,6 +1053,11 @@ moc_EvDevKeyboardListener.cpp: ../src/EvDevKeyboardListener.h \
 		moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include /home/inathero/Gits/bookro/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/inathero/Gits/bookro -I/home/inathero/Gits/bookro/keepassx/src/autotype/wayland -I/usr/include/qt -I/usr/include/qt/QtWaylandCompositor -I/usr/include/qt/QtQuick -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtQmlModels -I/usr/include/qt/QtQml -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtCore -I. -I/usr/include/c++/11.2.0 -I/usr/include/c++/11.2.0/x86_64-pc-linux-gnu -I/usr/include/c++/11.2.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include-fixed -I/usr/include ../src/EvDevKeyboardListener.h -o moc_EvDevKeyboardListener.cpp
+
+moc_ScriptEngineLite.cpp: ../src/ScriptEngineLite.h \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include /home/inathero/Gits/bookro/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/inathero/Gits/bookro -I/home/inathero/Gits/bookro/keepassx/src/autotype/wayland -I/usr/include/qt -I/usr/include/qt/QtWaylandCompositor -I/usr/include/qt/QtQuick -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtQmlModels -I/usr/include/qt/QtQml -I/usr/include/qt/QtNetwork -I/usr/include/qt/QtCore -I. -I/usr/include/c++/11.2.0 -I/usr/include/c++/11.2.0/x86_64-pc-linux-gnu -I/usr/include/c++/11.2.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/11.2.0/include-fixed -I/usr/include ../src/ScriptEngineLite.h -o moc_ScriptEngineLite.cpp
 
 moc_xkeys.cpp: ../src/emulation/xkeys.h \
 		moc_predefs.h \
@@ -1058,7 +1081,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -1067,6 +1090,9 @@ UInput.o: ../keepassx/src/autotype/wayland/UInput.cpp ../keepassx/src/autotype/w
 
 EvDevKeyboardListener.o: ../src/EvDevKeyboardListener.cpp ../src/EvDevKeyboardListener.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o EvDevKeyboardListener.o ../src/EvDevKeyboardListener.cpp
+
+ScriptEngineLite.o: ../src/ScriptEngineLite.cpp ../src/ScriptEngineLite.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ScriptEngineLite.o ../src/ScriptEngineLite.cpp
 
 xkeys.o: ../src/emulation/xkeys.cpp ../src/emulation/xkeys.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xkeys.o ../src/emulation/xkeys.cpp
@@ -1084,11 +1110,17 @@ Bookro.o: ../src/Bookro.cpp ../src/Bookro.h \
 		ui_Bookro.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Bookro.o ../src/Bookro.cpp
 
+qrc_resource.o: qrc_resource.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resource.o qrc_resource.cpp
+
 moc_Bookro.o: moc_Bookro.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Bookro.o moc_Bookro.cpp
 
 moc_EvDevKeyboardListener.o: moc_EvDevKeyboardListener.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_EvDevKeyboardListener.o moc_EvDevKeyboardListener.cpp
+
+moc_ScriptEngineLite.o: moc_ScriptEngineLite.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ScriptEngineLite.o moc_ScriptEngineLite.cpp
 
 moc_xkeys.o: moc_xkeys.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xkeys.o moc_xkeys.cpp

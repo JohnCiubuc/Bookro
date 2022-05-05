@@ -11,6 +11,7 @@ CONFIG += c++17  qevdevkeyboard
 SOURCES += \
     keepassx/src/autotype/wayland/UInput.cpp \
     src/EvDevKeyboardListener.cpp \
+    src/ScriptEngineLite.cpp \
     src/emulation/xkeys.cpp \
     src/main.cpp \
     src/Bookro.cpp
@@ -20,6 +21,7 @@ HEADERS += \
     keepassx/src/autotype/wayland/UInput.h \
     src/Bookro.h \
     src/EvDevKeyboardListener.h \
+    src/ScriptEngineLite.h \
     src/emulation/xkeys.h
 
 FORMS += \
@@ -31,3 +33,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 linux: LIBS += -lXtst -lX11 -levdev
+
+RESOURCES += \
+    resource.qrc
