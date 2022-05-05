@@ -4,10 +4,7 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui
-{
-class Bookro;
-}
+namespace Ui { class Bookro; }
 QT_END_NAMESPACE
 
 class Bookro : public QMainWindow
@@ -21,4 +18,4 @@ public:
 private:
     Ui::Bookro *ui;
 };
-#endif // MAIN_H
+#endif // BOOKRO_H

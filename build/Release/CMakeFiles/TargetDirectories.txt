@@ -1,5 +1,0 @@
-/home/inathero/Gits/bookro/build/Release/CMakeFiles/bookro.dir
-/home/inathero/Gits/bookro/build/Release/CMakeFiles/edit_cache.dir
-/home/inathero/Gits/bookro/build/Release/CMakeFiles/rebuild_cache.dir
-/home/inathero/Gits/bookro/build/Release/CMakeFiles/bookro_autogen_timestamp_deps.dir
-/home/inathero/Gits/bookro/build/Release/CMakeFiles/bookro_autogen.dir

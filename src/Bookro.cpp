@@ -1,5 +1,5 @@
 #include "Bookro.h"
-#include "src/ui_bookro.h"
+#include "ui_Bookro.h"
 
 Bookro::Bookro(QWidget *parent)
     : QMainWindow(parent)
