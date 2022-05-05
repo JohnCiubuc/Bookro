@@ -1,0 +1,43 @@
+build/
+# C++ objects and libs
+
+*.slo
+*.lo
+*.o
+*.la
+*.lai
+*.dylib
+
+#vim 
+*.swp
+
+# Qt-es
+
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+
+# QtCreator
+
+*.autosave
+
+#vims
+*~
+*.un~
+
+# QtCtreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCtreator CMake
+CMakeLists.txt.user
+
+build/
