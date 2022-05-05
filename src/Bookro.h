@@ -32,6 +32,10 @@ public slots:
 private slots:
     void on_pushButton_clicked();
 
+    void on_lineEdit_3_returnPressed();
+
+    void on_lineEdit_3_textChanged(const QString &arg1);
+
 private:
     Ui::Bookro *ui;
 
@@ -41,5 +45,6 @@ private:
     QMap<QString, QString> macros;
     int _triggerKeyStatus = 0;
     QString _lastMacroKeyName;
+    bool _evdevTextChanged = false;
 };
 #endif // BOOKRO_H

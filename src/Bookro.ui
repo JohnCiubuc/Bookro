@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>201</width>
-    <height>212</height>
+    <width>222</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,6 +15,20 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Monitor EvDev device:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="text">
+       <string>/dev/input/event20</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
@@ -63,7 +77,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>201</width>
+     <width>222</width>
      <height>23</height>
     </rect>
    </property>

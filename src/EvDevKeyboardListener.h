@@ -16,6 +16,9 @@ public:
 
 signals:
     void evdevKey(int, int);
+public slots:
+    void updateEvDevice(QString dev);
+    void startMonitor(bool status = true);
 private slots:
     void evdevTimeout();
 private:

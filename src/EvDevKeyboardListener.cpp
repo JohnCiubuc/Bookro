@@ -5,7 +5,16 @@
 EvDevKeyboardListener::EvDevKeyboardListener(QObject *parent)
     : QObject{parent}
 {
-    const char *eventDevice = "/dev/input/event20";
+
+
+    _evdevTimer = new QTimer(this);
+    connect(_evdevTimer, &QTimer::timeout, this, &EvDevKeyboardListener::evdevTimeout);
+
+}
+
+void EvDevKeyboardListener::updateEvDevice(QString dev)
+{
+    const char *eventDevice = dev.toLocal8Bit().data();
 
     const int fd = open(eventDevice, O_RDONLY | O_NONBLOCK);
 
@@ -24,10 +33,11 @@ EvDevKeyboardListener::EvDevKeyboardListener(QObject *parent)
     }
 
     qDebug("Device %s is open and associated w/ libevent\n", eventDevice);
+}
 
-    _evdevTimer = new QTimer(this);
-    connect(_evdevTimer, &QTimer::timeout, this, &EvDevKeyboardListener::evdevTimeout);
-    _evdevTimer->start(1);
+void EvDevKeyboardListener::startMonitor(bool status)
+{
+    status ? _evdevTimer->start(1):_evdevTimer->stop();
 }
 
 void EvDevKeyboardListener::evdevTimeout()
