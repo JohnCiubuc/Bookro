@@ -28,12 +28,18 @@ public:
     ~Bookro();
 public slots:
     void keyboardListener(int key, int keyState);
+    void triggerMacro(QString);
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::Bookro *ui;
 
     QTimer * debugTimer;
     EvDevKeyboardListener * Listener;
     ScriptEngineLite * ScriptEngine;
+    QMap<QString, QString> macros;
     int debug = 0;
+    QString _lastMacroKeyName;
 };
 #endif // BOOKRO_H

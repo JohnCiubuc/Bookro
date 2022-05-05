@@ -31,14 +31,41 @@ Bookro::~Bookro()
 
 void Bookro::keyboardListener(int key, int keyState)
 {
-    db ScriptEngine->getDikName(key) <<   ", " << keyState;
-    if (ScriptEngine->getDikName(key) == "DIK_APOSTROPHE")
+    QString keyName = ScriptEngine->getDikName(key);
+    db keyName <<   ", " << keyState;
+    if (keyName == "DIK_APOSTROPHE" && keyState == 1)
         debug=1;
-    else if (ScriptEngine->getDikName(key) == "DIK_A" && debug == 1 && keyState == 1)
+    if (keyName == "DIK_APOSTROPHE" && keyState == 0)
+        debug=0;
+
+    if (keyName != "DIK_APOSTROPHE" && debug == 1 && keyState == 1)
     {
-        ScriptEngine->key_backspace(2);
-        ScriptEngine->key_send("Test");
+        triggerMacro(keyName);
     }
-    else debug=0;
+}
+
+void Bookro::triggerMacro(QString keyName)
+{
+    _lastMacroKeyName = keyName;
+    if (macros.contains(keyName))
+    {
+        ui->lineEdit->setText("'"+keyName);
+        ui->lineEdit_2->setText(macros.value(keyName));
+        ScriptEngine->key_backspace(2);
+        ScriptEngine->key_send(macros.value(keyName));
+    }
+    else
+    {
+        this->show();
+        this->setFocus();
+        ui->lineEdit->setText("'"+keyName);
+    }
+}
+
+
+void Bookro::on_pushButton_clicked()
+{
+    macros[_lastMacroKeyName] = ui->lineEdit_2->text();
+    ui->lineEdit_2->clear();
 }
 

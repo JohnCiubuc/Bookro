@@ -7,3 +7,6 @@ Ideal functionality is for a user to press a key string that indicates a mark, s
 Macros will be transient, much like the quickmark system. The idea is to simplify workflow when working on a current document, like an email, rather than being permanent. However, will probably write a feature for permanent marks too if it becomes prudent.
 
 Might run into an issue where writing a mark will be commonplace in writing, and keeps prompting the system, but time will tell
+
+
+Submodule broken atm, will fix later. But it's the wayland-autotype branch that's needed
