@@ -7,7 +7,7 @@ Bookro::Bookro(QWidget *parent)
     , ui(new Ui::Bookro)
 {
     ui->setupUi(this);
-
+    this->hide();
     debugTimer = new QTimer;
     Listener = new EvDevKeyboardListener();
     ScriptEngine = new ScriptEngineLite();
@@ -34,11 +34,13 @@ void Bookro::keyboardListener(int key, int keyState)
     QString keyName = ScriptEngine->getDikName(key);
     db keyName <<   ", " << keyState;
     if (keyName == "DIK_APOSTROPHE" && keyState == 1)
-        debug=1;
+    {
+        _triggerKeyStatus=1;
+    }
     if (keyName == "DIK_APOSTROPHE" && keyState == 0)
-        debug=0;
+        _triggerKeyStatus=0;
 
-    if (keyName != "DIK_APOSTROPHE" && debug == 1 && keyState == 1)
+    if (keyName != "DIK_APOSTROPHE" && _triggerKeyStatus == 1 && keyState == 1)
     {
         triggerMacro(keyName);
     }
@@ -57,6 +59,7 @@ void Bookro::triggerMacro(QString keyName)
     else
     {
         this->show();
+        QMainWindow::activateWindow();
         this->setFocus();
         ui->lineEdit->setText("'"+keyName);
     }

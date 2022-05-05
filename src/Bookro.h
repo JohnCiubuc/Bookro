@@ -39,7 +39,7 @@ private:
     EvDevKeyboardListener * Listener;
     ScriptEngineLite * ScriptEngine;
     QMap<QString, QString> macros;
-    int debug = 0;
+    int _triggerKeyStatus = 0;
     QString _lastMacroKeyName;
 };
 #endif // BOOKRO_H
