@@ -5,7 +5,7 @@
 #include "ScriptEngineLite.h"
 #include <linux/input-event-codes.h>
 
-#define KEY_DELAY qrand() % ((10 + 1) - 20) + 20
+#define KEY_DELAY qrand() % ((10 + 1) - 20) + 5
 
 ScriptEngineLite::ScriptEngineLite(QObject *parent)
     : QObject{parent}
@@ -81,6 +81,17 @@ void ScriptEngineLite::key_send(QString baScript)
             _input->sendKey(code, UInput::Release);
 #endif
         }
+    }
+}
+
+void ScriptEngineLite::key_backspace(int count = 1)
+{
+    for(int i = 0; i <count; i++)
+    {
+        _input->sendKey(0x0E, UInput::Keypress);
+        QThread::msleep(KEY_DELAY);
+        _input->sendKey(0x0E, UInput::Release);
+        QThread::msleep(KEY_DELAY);
     }
 }
 

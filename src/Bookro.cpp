@@ -35,7 +35,10 @@ void Bookro::keyboardListener(int key, int keyState)
     if (ScriptEngine->getDikName(key) == "DIK_APOSTROPHE")
         debug=1;
     else if (ScriptEngine->getDikName(key) == "DIK_A" && debug == 1 && keyState == 1)
+    {
+        ScriptEngine->key_backspace(2);
         ScriptEngine->key_send("Test");
+    }
     else debug=0;
 }
 

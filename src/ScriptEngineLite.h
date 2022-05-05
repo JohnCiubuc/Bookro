@@ -31,6 +31,7 @@ public slots:
     QString getDikName(int keyCode);
     QString getVKName(int keyCode);
     void key_send(QString);
+    void key_backspace(int);
 signals:
 private:
     void setDefinitions(QString sPathToDefines);
