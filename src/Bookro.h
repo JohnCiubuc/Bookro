@@ -8,6 +8,7 @@
 
 #include "emulation/xkeys.h"
 #include "EvDevKeyboardListener.h"
+#include "UInput.h"
 
 #define db qDebug() << this <<
 
@@ -31,5 +32,6 @@ private:
 
     QTimer * debugTimer;
     EvDevKeyboardListener * Listener;
+    UInput * input;
 };
 #endif // BOOKRO_H

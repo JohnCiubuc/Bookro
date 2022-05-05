@@ -9,12 +9,15 @@ CONFIG += c++17  qevdevkeyboard
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    keepassx/src/autotype/wayland/UInput.cpp \
     src/EvDevKeyboardListener.cpp \
     src/emulation/xkeys.cpp \
     src/main.cpp \
     src/Bookro.cpp
 
+
 HEADERS += \
+    keepassx/src/autotype/wayland/UInput.h \
     src/Bookro.h \
     src/EvDevKeyboardListener.h \
     src/emulation/xkeys.h
@@ -22,6 +25,7 @@ HEADERS += \
 FORMS += \
     src/Bookro.ui
 
+INCLUDEPATH += keepassx/src/autotype/wayland/
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

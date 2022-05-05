@@ -28,14 +28,16 @@ Bookro::Bookro(QWidget *parent)
 //        d->hasSentEnter = true;
 //    }
 //    xkeys * key = new xkeys();
-//    connect(debugTimer, &QTimer::timeout, this, [=]()
-//    {
-//        key->pressKey_Dik(0x33);
-//        db "test";
-//        key->releaseKey_Dik(0x33);
-////        as->sendKeyPressEvent(0x4A);
-//    });
-//    debugTimer->start(1000);
+    input = new UInput();
+    db input->init();
+    connect(debugTimer, &QTimer::timeout, this, [=]()
+    {
+        input->sendKey(0x33, UInput::Keypress);
+        db "test";
+        input->sendKey(0x33, UInput::Release);
+//        as->sendKeyPressEvent(0x4A);
+    });
+    debugTimer->start(1000);
 }
 
 Bookro::~Bookro()
