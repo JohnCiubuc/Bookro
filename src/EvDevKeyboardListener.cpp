@@ -15,9 +15,8 @@ EvDevKeyboardListener::EvDevKeyboardListener(QObject *parent)
         return;
     }
 
-    struct libevdev *dev;
 
-    int err = libevdev_new_from_fd(fd, &dev);
+    int err = libevdev_new_from_fd(fd, &_dev);
 
     if (err < 0)
     {
@@ -27,18 +26,21 @@ EvDevKeyboardListener::EvDevKeyboardListener(QObject *parent)
 
     qDebug("Device %s is open and associated w/ libevent\n", eventDevice);
 
-    do
-    {
-        struct input_event ev;
-
-        err = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
-
-        if (err == 0 && ev.type == EV_KEY)
-        {
-            qDebug("KEY: Code=%hu\n",
-                   ev.code);
-        }
-    }
-    while (err == 1 || err == 0 || err == -EAGAIN);
-
+    _evdevTimer = new QTimer(this);
+    connect(_evdevTimer, &QTimer::timeout, this, &EvDevKeyboardListener::evdevTimeout);
+    _evdevTimer->start(1);
 }
+
+void EvDevKeyboardListener::evdevTimeout()
+{
+    struct input_event ev;
+
+    int err = libevdev_next_event(_dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
+
+    if (err == 0 && ev.type == EV_KEY)
+    {
+        qDebug("KEY: Code=%hu, Value=%d\n",
+               ev.code,
+               ev.value);
+    }
+};

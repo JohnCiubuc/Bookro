@@ -3,12 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
-#include <errno.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include <QTimer>
 #include <stdio.h>
-#include <string.h>
-#include <dirent.h>
 #include <fcntl.h>
 #include <libevdev-1.0/libevdev/libevdev.h>
 
@@ -19,7 +15,11 @@ public:
     explicit EvDevKeyboardListener(QObject *parent = nullptr);
 
 signals:
-
+private slots:
+    void evdevTimeout();
+private:
+    QTimer * _evdevTimer;
+    struct libevdev *_dev;
 };
 
 #endif // EVDEVKEYBOARDLISTENER_H
