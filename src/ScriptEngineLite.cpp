@@ -5,6 +5,8 @@
 #include "ScriptEngineLite.h"
 #include <linux/input-event-codes.h>
 
+#define KEY_DELAY qrand() % ((10 + 1) - 20) + 20
+
 ScriptEngineLite::ScriptEngineLite(QObject *parent)
     : QObject{parent}
 {
@@ -50,32 +52,32 @@ void ScriptEngineLite::key_send(QString baScript)
 #ifdef _WIN32
             int shiftKey = 0x2A;
 #elif __linux__
-            int shiftKey = 0xFFE1;
+            int shiftKey = 0x2A;
 #endif
             _input->sendKey(shiftKey, UInput::Keypress);
-            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            QThread::msleep(KEY_DELAY);
             _input->sendKey(code, UInput::Keypress);
-            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            QThread::msleep(KEY_DELAY);
             _input->sendKey(code, UInput::Release);
-            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            QThread::msleep(KEY_DELAY);
             _input->sendKey(shiftKey, UInput::Release);
         }
         else if (int(cChar.toLatin1()) >= 97 && int(cChar.toLatin1()) <= 122)
         {
             cChar = QChar(int(cChar.toLatin1()) - 32);
             _input->sendKey(code, UInput::Keypress);
-            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            QThread::msleep(KEY_DELAY);
             _input->sendKey(code, UInput::Release);
         }
         else
         {
 #ifdef _WIN32
             Key_Sim->key_down(cChar.unicode(), true);
-            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            QThread::msleep(KEY_DELAY);
             Key_Sim->key_up(cChar.unicode(), true);
 #elif __linux__
             _input->sendKey(code, UInput::Keypress);
-            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            QThread::msleep(KEY_DELAY);
             _input->sendKey(code, UInput::Release);
 #endif
         }
