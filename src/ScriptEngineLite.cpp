@@ -13,6 +13,26 @@ ScriptEngineLite::ScriptEngineLite(QObject *parent)
     qDebug() << _dikCodes.size();
 }
 
+QString ScriptEngineLite::getDikName(int keyCode)
+{
+    foreach(ScriptEngine::dik_codes_s s, _dikCodes)
+    {
+        if (s.DIK_Code == keyCode)
+            return s.DIK_Name;
+    }
+    return QString();
+}
+
+QString ScriptEngineLite::getVKName(int keyCode)
+{
+    foreach(ScriptEngine::vk_codes_s s, _vkCodes)
+    {
+        if (s.VK_Code == keyCode)
+            return s.VK_Name;
+    }
+    return QString();
+}
+
 
 void ScriptEngineLite::setDefinitions(QString sPathToDefines)
 {

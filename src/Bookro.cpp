@@ -34,7 +34,8 @@ Bookro::~Bookro()
 
 void Bookro::keyboardListener(int key, int keyState)
 {
-    db key <<   ", " << keyState;
+
+    db ScriptEngine->getDikName(key) <<   ", " << keyState;
 
 }
 

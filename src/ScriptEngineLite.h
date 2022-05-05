@@ -25,7 +25,9 @@ class ScriptEngineLite : public QObject
     Q_OBJECT
 public:
     explicit ScriptEngineLite(QObject *parent = nullptr);
-
+public slots:
+    QString getDikName(int keyCode);
+    QString getVKName(int keyCode);
 signals:
 private:
     void setDefinitions(QString sPathToDefines);
