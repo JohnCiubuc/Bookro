@@ -1,0 +1,9 @@
+# ninja log v5
+0	129	1651709319260199495	bookro_autogen/timestamp	bc139b40f5bbfc37
+0	129	1651709319260199495	bookro_autogen/mocs_compilation.cpp	bc139b40f5bbfc37
+0	129	1651709319260199495	/home/inathero/Gits/bookro/build/Debug/bookro_autogen/timestamp	bc139b40f5bbfc37
+0	129	1651709319260199495	/home/inathero/Gits/bookro/build/Debug/bookro_autogen/mocs_compilation.cpp	bc139b40f5bbfc37
+129	1042	1651709320176195235	CMakeFiles/bookro.dir/bookro_autogen/mocs_compilation.cpp.o	147fdb8fd2003f7b
+129	1073	1651709320206195096	CMakeFiles/bookro.dir/main.cpp.o	90529e1d84d41df
+129	1095	1651709320228194994	CMakeFiles/bookro.dir/src/main.cpp.o	fce96e4b51475aa8
+1095	1257	1651709320388194250	bookro	5a5285917c42f17f
