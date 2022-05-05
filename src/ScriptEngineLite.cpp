@@ -3,13 +3,18 @@
 
 
 #include "ScriptEngineLite.h"
+#include <linux/input-event-codes.h>
 
 ScriptEngineLite::ScriptEngineLite(QObject *parent)
     : QObject{parent}
 {
     setDefinitions(":/definitions/src/emulation/definitions/keysyms_defines.h");
     setDefinitions(":/definitions/src/emulation/definitions/dik_defines.h");
-
+    // Used for XKeysymToKeycode
+    xDisplay = XOpenDisplay(0);
+    _input = new UInput();
+    if(!_input->init())
+        qDebug() << this << "WARNING: input failed to manifest. Will not be able to send keys at this time";
     qDebug() << _dikCodes.size();
 }
 
@@ -31,6 +36,50 @@ QString ScriptEngineLite::getVKName(int keyCode)
             return s.VK_Name;
     }
     return QString();
+}
+
+void ScriptEngineLite::key_send(QString baScript)
+{
+
+    foreach (QChar cChar, baScript)
+    {
+        uint32_t code = XKeysymToKeycode(xDisplay,  cChar.unicode())-8;
+        qDebug() << this  <<cChar<<cChar.unicode()<<code;
+        if (int(cChar.toLatin1()) >= 65 && int(cChar.toLatin1()) <= 90)
+        {
+#ifdef _WIN32
+            int shiftKey = 0x2A;
+#elif __linux__
+            int shiftKey = 0xFFE1;
+#endif
+            _input->sendKey(shiftKey, UInput::Keypress);
+            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            _input->sendKey(code, UInput::Keypress);
+            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            _input->sendKey(code, UInput::Release);
+            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            _input->sendKey(shiftKey, UInput::Release);
+        }
+        else if (int(cChar.toLatin1()) >= 97 && int(cChar.toLatin1()) <= 122)
+        {
+            cChar = QChar(int(cChar.toLatin1()) - 32);
+            _input->sendKey(code, UInput::Keypress);
+            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            _input->sendKey(code, UInput::Release);
+        }
+        else
+        {
+#ifdef _WIN32
+            Key_Sim->key_down(cChar.unicode(), true);
+            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            Key_Sim->key_up(cChar.unicode(), true);
+#elif __linux__
+            _input->sendKey(code, UInput::Keypress);
+            QThread::msleep(qrand() % ((110 + 1) - 20) + 20);
+            _input->sendKey(code, UInput::Release);
+#endif
+        }
+    }
 }
 
 

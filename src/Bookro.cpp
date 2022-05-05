@@ -12,9 +12,6 @@ Bookro::Bookro(QWidget *parent)
     Listener = new EvDevKeyboardListener();
     ScriptEngine = new ScriptEngineLite();
 
-    input = new UInput();
-    if(!input->init())
-        db "WARNING: input failed to manifest. Will not be able to send keys at this time";
 
     connect(Listener, &EvDevKeyboardListener::evdevKey, this, &Bookro::keyboardListener);
 //    connect(debugTimer, &QTimer::timeout, this, [=]()
@@ -34,8 +31,11 @@ Bookro::~Bookro()
 
 void Bookro::keyboardListener(int key, int keyState)
 {
-
     db ScriptEngine->getDikName(key) <<   ", " << keyState;
-
+    if (ScriptEngine->getDikName(key) == "DIK_APOSTROPHE")
+        debug=1;
+    else if (ScriptEngine->getDikName(key) == "DIK_A" && debug == 1 && keyState == 1)
+        ScriptEngine->key_send("Test");
+    else debug=0;
 }
 

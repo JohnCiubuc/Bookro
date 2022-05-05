@@ -5,7 +5,9 @@
 #include <QIODevice>
 #include <QFile>
 #include <QDebug>
-
+#include <QThread>
+#include "UInput.h"
+#include <X11/Xlib.h>
 namespace ScriptEngine
 {
 struct dik_codes_s
@@ -28,12 +30,15 @@ public:
 public slots:
     QString getDikName(int keyCode);
     QString getVKName(int keyCode);
+    void key_send(QString);
 signals:
 private:
     void setDefinitions(QString sPathToDefines);
 
     QList<ScriptEngine::dik_codes_s> _dikCodes;
     QList<ScriptEngine::vk_codes_s> _vkCodes;
+    UInput * _input;
+    Display * xDisplay ;
 };
 
 #endif // SCRIPTENGINELITE_H
