@@ -15,6 +15,7 @@ public:
     explicit EvDevKeyboardListener(QObject *parent = nullptr);
 
 signals:
+    void evdevKey(int, int);
 private slots:
     void evdevTimeout();
 private:

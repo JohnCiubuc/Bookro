@@ -38,8 +38,7 @@ void EvDevKeyboardListener::evdevTimeout()
 
     if (err == 0 && ev.type == EV_KEY)
     {
-        qDebug("KEY: Code=%hu, Value=%d\n",
-               ev.code,
-               ev.value);
+        emit evdevKey(ev.code, ev.value);
+
     }
 };

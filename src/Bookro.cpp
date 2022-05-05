@@ -15,6 +15,8 @@ Bookro::Bookro(QWidget *parent)
     input = new UInput();
     if(!input->init())
         db "WARNING: input failed to manifest. Will not be able to send keys at this time";
+
+    connect(Listener, &EvDevKeyboardListener::evdevKey, this, &Bookro::keyboardListener);
 //    connect(debugTimer, &QTimer::timeout, this, [=]()
 //    {
 //        input->sendKey(0x33, UInput::Keypress);
@@ -28,5 +30,11 @@ Bookro::Bookro(QWidget *parent)
 Bookro::~Bookro()
 {
     delete ui;
+}
+
+void Bookro::keyboardListener(int key, int keyState)
+{
+    db key <<   ", " << keyState;
+
 }
 

@@ -27,7 +27,8 @@ class Bookro : public QMainWindow
 public:
     Bookro(QWidget *parent = nullptr);
     ~Bookro();
-
+public slots:
+    void keyboardListener(int key, int keyState);
 private:
     Ui::Bookro *ui;
 
