@@ -15,7 +15,6 @@ EvDevKeyboardListener::EvDevKeyboardListener(QObject *parent)
         return;
     }
 
-
     int err = libevdev_new_from_fd(fd, &_dev);
 
     if (err < 0)
