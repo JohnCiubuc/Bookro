@@ -18,7 +18,7 @@ Bookro::Bookro(QWidget *parent)
     Listener->updateEvDevice(ui->lineEdit_3->text());
     Listener->startMonitor();
 
-
+    BookroEvTest * pp = new BookroEvTest;
     createTrayIcon();
 }
 
@@ -86,7 +86,7 @@ void Bookro::on_lineEdit_3_textChanged(const QString &arg1)
 void Bookro::createTrayIcon()
 {
 
-    _tray = new QSystemTrayIcon(this);
+    _tray = new BookroSystemTrayIcon(this);
     _tray->setIcon(QIcon(":/icons/media/book-bookmark-icon.png"));
     _tray->setContextMenu(new QMenu(this));
 

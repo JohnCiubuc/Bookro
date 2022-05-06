@@ -5,11 +5,12 @@
 #include <QTimer>
 #include <QDebug>
 #include <QMenu>
-#include <QSystemTrayIcon>
+#include "BookroSystemTrayIcon.h"
 
 #include "emulation/xkeys.h"
 #include "EvDevKeyboardListener.h"
 #include "ScriptEngineLite.h"
+#include "BookroEvTest.h"
 
 #define db qDebug() << this <<
 
@@ -50,6 +51,6 @@ private:
     int _triggerKeyStatus = 0;
     QString _lastMacroKeyName;
     bool _evdevTextChanged = false;
-    QSystemTrayIcon * _tray;
+    BookroSystemTrayIcon * _tray;
 };
 #endif // BOOKRO_H
