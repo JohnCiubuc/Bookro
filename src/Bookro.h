@@ -1,10 +1,11 @@
-#ifndef BOOKRO_H
+﻿#ifndef BOOKRO_H
 #define BOOKRO_H
 #include <QMainWindow>
 //#include <QWaylandKeyboard>
 #include <QTimer>
-#include <QWaylandCompositor>
 #include <QDebug>
+#include <QMenu>
+#include <QSystemTrayIcon>
 
 #include "emulation/xkeys.h"
 #include "EvDevKeyboardListener.h"
@@ -36,6 +37,9 @@ private slots:
 
     void on_lineEdit_3_textChanged(const QString &arg1);
 
+    void createTrayIcon();
+
+    void showBookro();
 private:
     Ui::Bookro *ui;
 
@@ -46,5 +50,6 @@ private:
     int _triggerKeyStatus = 0;
     QString _lastMacroKeyName;
     bool _evdevTextChanged = false;
+    QSystemTrayIcon * _tray;
 };
 #endif // BOOKRO_H

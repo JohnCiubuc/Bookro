@@ -9,6 +9,7 @@ Bookro::Bookro(QWidget *parent)
     ui->setupUi(this);
     this->hide();
 
+
     Listener = new EvDevKeyboardListener();
     ScriptEngine = new ScriptEngineLite();
 
@@ -17,6 +18,8 @@ Bookro::Bookro(QWidget *parent)
     Listener->updateEvDevice(ui->lineEdit_3->text());
     Listener->startMonitor();
 
+
+    createTrayIcon();
 }
 
 Bookro::~Bookro()
@@ -54,9 +57,7 @@ void Bookro::triggerMacro(QString keyName)
     }
     else
     {
-        this->show();
-        QMainWindow::activateWindow();
-        this->setFocus();
+        showBookro();
         ui->lineEdit->setText("'"+keyName);
     }
 }
@@ -78,5 +79,29 @@ void Bookro::on_lineEdit_3_returnPressed()
 void Bookro::on_lineEdit_3_textChanged(const QString &arg1)
 {
     _evdevTextChanged = true;
+}
+
+void Bookro::createTrayIcon()
+{
+
+    _tray = new QSystemTrayIcon(this);
+    _tray->setIcon(QIcon(":/icons/media/book-bookmark-icon.png"));
+
+    QMenu * menu = new QMenu(this);
+    connect(menu->addAction("Show"), &QAction::triggered, this, [=]()
+    {
+        showBookro();
+    });
+    connect(menu->addAction("Quit"), &QAction::triggered, this, &QApplication::quit);
+
+    _tray->setContextMenu(menu);
+    _tray->show();
+}
+
+void Bookro::showBookro()
+{
+    this->show();
+    QMainWindow::activateWindow();
+    this->setFocus();
 }
 

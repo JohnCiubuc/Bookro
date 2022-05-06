@@ -5,11 +5,8 @@
 EvDevKeyboardListener::EvDevKeyboardListener(QObject *parent)
     : QObject{parent}
 {
-
-
     _evdevTimer = new QTimer(this);
     connect(_evdevTimer, &QTimer::timeout, this, &EvDevKeyboardListener::evdevTimeout);
-
 }
 
 void EvDevKeyboardListener::updateEvDevice(QString dev)
@@ -47,8 +44,5 @@ void EvDevKeyboardListener::evdevTimeout()
     int err = libevdev_next_event(_dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
 
     if (err == 0 && ev.type == EV_KEY)
-    {
         emit evdevKey(ev.code, ev.value);
-
-    }
 };

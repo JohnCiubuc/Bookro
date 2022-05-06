@@ -3,4 +3,7 @@
         <file>src/emulation/definitions/keysyms_defines.h</file>
         <file>src/emulation/definitions/dik_defines.h</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file>media/book-bookmark-icon.png</file>
+    </qresource>
 </RCC>
