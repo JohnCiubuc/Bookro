@@ -88,15 +88,14 @@ void Bookro::createTrayIcon()
 
     _tray = new QSystemTrayIcon(this);
     _tray->setIcon(QIcon(":/icons/media/book-bookmark-icon.png"));
+    _tray->setContextMenu(new QMenu(this));
 
-    QMenu * menu = new QMenu(this);
-    connect(menu->addAction("Show"), &QAction::triggered, this, [=]()
+    connect(_tray->contextMenu()->addAction("Show"), &QAction::triggered, this, [=]()
     {
         showBookro();
     });
-    connect(menu->addAction("Quit"), &QAction::triggered, this, &QApplication::quit);
+    connect(_tray->contextMenu()->addAction("Quit"), &QAction::triggered, this, &QApplication::quit);
 
-    _tray->setContextMenu(menu);
     _tray->show();
 }
 
