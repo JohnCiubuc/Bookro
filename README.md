@@ -16,3 +16,10 @@ On launch, set the device to hook the keyboard on the first lineedit. Typing `ev
 while typing, at any time, press and hold apostrophe `'` and press any desired letter. I.e. `'+A`. This will prompt Bookro for a macro. If no macro is available, simply enter the desired text in the spot that opens up in Bookro. The next time you press that same combination, it'll run that text macro instead.
 
 If you wish to change the text in a macro, simply run your key combination, go to Bookro, and change the text there.
+
+# Bookro in action
+
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/JohnCiubuc/JohnCiubucGifs/main/bookro.gif" />
+  </p>

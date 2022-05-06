@@ -8,7 +8,7 @@ Bookro::Bookro(QWidget *parent)
 {
     ui->setupUi(this);
     this->hide();
-
+    this->setWindowState(Qt::WindowMinimized);
 
     Listener = new EvDevKeyboardListener();
     ScriptEngine = new ScriptEngineLite();
@@ -58,6 +58,7 @@ void Bookro::triggerMacro(QString keyName)
     else
     {
         showBookro();
+
         ui->lineEdit->setText("'"+keyName);
     }
 }
@@ -67,6 +68,7 @@ void Bookro::on_pushButton_clicked()
 {
     macros[_lastMacroKeyName] = ui->lineEdit_2->text();
     ui->lineEdit_2->clear();
+    this->setWindowState(Qt::WindowMinimized);
 }
 
 
