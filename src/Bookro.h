@@ -57,5 +57,6 @@ private:
     bool _evdevTextChanged = false;
     BookroSystemTrayIcon * _tray;
     BookroEvTest * _evtest;
+    bool _applicationReady = false;
 };
 #endif // BOOKRO_H

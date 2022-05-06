@@ -21,12 +21,15 @@ Bookro::Bookro(QWidget *parent)
 
     ui->comboBox->addItems(_evtest->getAllDevices());
 
-    _evtest->setIndex(0);
+    QSettings settings("JohnCiubuc", "Bookro");
+    _evtest->setIndex(settings.value("LastEvTestIndex", 0).toInt());
+    ui->comboBox->setCurrentIndex(settings.value("LastEvTestIndex", 0).toInt());
 
     Listener->updateEvDevice(_evtest->getTopDevice());
     Listener->startMonitor();
 
     createTrayIcon();
+    _applicationReady = true;
 }
 
 Bookro::~Bookro()
@@ -116,7 +119,10 @@ void Bookro::showBookro()
 
 void Bookro::on_comboBox_currentIndexChanged(int index)
 {
+    if(!_applicationReady) return;
     _evtest->setIndex(index);
     Listener->updateEvDevice(_evtest->getTopDevice());
+    QSettings settings("JohnCiubuc", "Bookro");
+    settings.setValue("LastEvTestIndex", index);
 }
 
