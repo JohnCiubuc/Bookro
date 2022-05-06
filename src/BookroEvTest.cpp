@@ -15,6 +15,21 @@ BookroEvTest::BookroEvTest(QObject *parent)
     evtestQtDeviceScan();
 }
 
+QString BookroEvTest::getTopDevice()
+{
+    return _index == -1 ? QString() : _evdevNames.at(_index);
+}
+
+QStringList BookroEvTest::getAllDevices()
+{
+    return _evdevNames;
+}
+
+void BookroEvTest::setIndex(int index)
+{
+    _index = index;
+}
+
 // Adapted from https://github.com/Grumbel/evtest-qt
 void BookroEvTest::evtestQtDeviceScan()
 {

@@ -15,10 +15,17 @@ Bookro::Bookro(QWidget *parent)
 
     connect(Listener, &EvDevKeyboardListener::evdevKey, this, &Bookro::keyboardListener);
 
-    Listener->updateEvDevice(ui->lineEdit_3->text());
+
+
+    _evtest = new BookroEvTest;
+
+    ui->comboBox->addItems(_evtest->getAllDevices());
+
+    _evtest->setIndex(0);
+
+    Listener->updateEvDevice(_evtest->getTopDevice());
     Listener->startMonitor();
 
-    BookroEvTest * pp = new BookroEvTest;
     createTrayIcon();
 }
 
@@ -104,5 +111,12 @@ void Bookro::showBookro()
     this->show();
     QMainWindow::activateWindow();
     this->setFocus();
+}
+
+
+void Bookro::on_comboBox_currentIndexChanged(int index)
+{
+    _evtest->setIndex(index);
+    Listener->updateEvDevice(_evtest->getTopDevice());
 }
 

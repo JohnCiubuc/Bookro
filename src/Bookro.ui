@@ -23,11 +23,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_3">
-      <property name="text">
-       <string>/dev/input/event20</string>
-      </property>
-     </widget>
+     <widget class="QComboBox" name="comboBox"/>
     </item>
     <item>
      <widget class="QLabel" name="label">

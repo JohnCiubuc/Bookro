@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <QMenu>
+#include <QSettings>
+
 #include "BookroSystemTrayIcon.h"
 
 #include "emulation/xkeys.h"
@@ -41,6 +43,8 @@ private slots:
     void createTrayIcon();
 
     void showBookro();
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::Bookro *ui;
 
@@ -52,5 +56,6 @@ private:
     QString _lastMacroKeyName;
     bool _evdevTextChanged = false;
     BookroSystemTrayIcon * _tray;
+    BookroEvTest * _evtest;
 };
 #endif // BOOKRO_H
