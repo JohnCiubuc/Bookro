@@ -52,12 +52,14 @@ void Bookro::keyboardListener(int key, int keyState)
 
 void Bookro::triggerMacro(QString keyName)
 {
+    // Did we change evdev listener?
     if(_evdevTextChanged)
     {
         _evdevTextChanged = false;
         on_lineEdit_3_returnPressed();
     }
     _lastMacroKeyName = keyName;
+    // Are we activating a macro?
     if (macros.contains(keyName))
     {
         ui->lineEdit->setText("'"+keyName);
@@ -65,11 +67,13 @@ void Bookro::triggerMacro(QString keyName)
         ScriptEngine->key_backspace(2);
         ScriptEngine->key_send(macros.value(keyName));
     }
+    // Are we triggering a macro but we don't have anything saved?
     else
     {
         showBookro();
 
         ui->lineEdit->setText("'"+keyName);
+        ui->lineEdit_2->setText(QApplication::clipboard()->text(QClipboard::Selection));
     }
 }
 

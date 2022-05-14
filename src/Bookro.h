@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QMenu>
 #include <QSettings>
+#include <QClipboard>
 
 #include "BookroSystemTrayIcon.h"
 
